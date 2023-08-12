@@ -9,6 +9,7 @@ import UIKit
 
 class ViewController: UIViewController {
     
+    // Enum to represent the list of words
     enum ListOfWords: String {
         case Banana
         case Watermelon
@@ -21,8 +22,10 @@ class ViewController: UIViewController {
         case Blueberries
     }
     
+    // Array to store shuffled words
     var wordArray: [ListOfWords] = [.Banana, .Watermelon, .Kiwi, .Apple, .Lemon, .Cherries, .Orange, .Strawberry, .Blueberries].shuffled()
     
+    // UI elements
     @IBOutlet var scoreLabel: UILabel!
     var score: Int = 0
     @IBOutlet var feedbackLabel: UILabel!
@@ -32,12 +35,13 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        //         Do any additional setup after loading the view.
+        // Set initial word, score, and feedback labels
         wordLabel.text = wordArray.removeLast().rawValue
         scoreLabel.text = "Score: \(score)"
         feedbackLabel.text = ""
     }
     
+    // Update the feedback label with animation
     func updateFeedbackLabel(_ animated: Bool) {
         super.viewDidAppear(animated)
             let duration = TimeInterval(1)
@@ -48,12 +52,16 @@ class ViewController: UIViewController {
             })
 
     }
-        
+    
+    // Action when picture button is pressed
     @IBAction func pictureButtonPressed(_ sender: UIButton) {
+        // Check if the selected image matches the current word
         if sender.tag == 0 && wordLabel.text == ListOfWords.Banana.rawValue {
+            // Increase score and update labels
             score += 1
             scoreLabel.text = "Score: \(score)"
             feedbackLabel.text = "Correct"
+            // Animate feedback label
             updateFeedbackLabel(true)
         }
         else if sender.tag == 1 && wordLabel.text == ListOfWords.Watermelon.rawValue {
@@ -105,11 +113,13 @@ class ViewController: UIViewController {
             updateFeedbackLabel(true)
         }
         
+        // Show next word or finish the game
         if wordArray.count > 0 {
             wordLabel.text = wordArray.removeLast().rawValue
         } else {
             wordLabel.text = "You got \(score) out of 9 correct"
             feedbackLabel.text = "Game Over"
+            // Animate feedback label for game over
             updateFeedbackLabel(false)
             
         }
